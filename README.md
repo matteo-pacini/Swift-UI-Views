@@ -5,11 +5,11 @@ A collection of custom views to reuse in SwiftUI projects
 ## Table of Contents
 
 - [Switch](#switch)
+- [Activity Indicator](#activity-indicator)
 
 ## Views
 
 ### Switch
-
 
  ![switch-gif](switch.gif)
 
@@ -37,5 +37,28 @@ struct CustomSwitch: View {
         }
     }
 
+}
+```
+
+### Activity Indicator
+
+![indicator-gif](indicator.gif)
+
+```swift
+struct ActivityIndicator: UIViewRepresentable {
+
+    @Binding var isAnimating: Bool
+    let style: UIActivityIndicatorView.Style
+
+    func makeUIView(context: UIViewRepresentableContext<ActivityIndicator>) -> UIActivityIndicatorView {
+        UIActivityIndicatorView(style: style)
+    }
+
+    func updateUIView(_ uiView: UIActivityIndicatorView,
+                      context: UIViewRepresentableContext<ActivityIndicator>) {
+        isAnimating ?
+            uiView.startAnimating() :
+            uiView.stopAnimating()
+    }
 }
 ```
