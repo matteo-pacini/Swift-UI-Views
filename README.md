@@ -10,7 +10,7 @@ A collection of custom views to reuse in SwiftUI projects
 
  ![switch-gif](switch.gif)
 
-```
+```swift
 struct CustomSwitch: View {
 
     @Binding var isOn: Bool
