@@ -3,7 +3,7 @@ A collection of custom views to reuse in SwiftUI projects
 
 ## Table of Contents
 
-- Switch
+- [Switch](#switch)
 
 ### Switch
 
