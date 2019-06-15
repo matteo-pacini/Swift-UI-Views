@@ -2,6 +2,8 @@
 
 A collection of custom views to reuse in SwiftUI projects
 
+![swiftui-logo](swiftui.png)
+
 ## Table of Contents
 
 - [Switch](#switch)
