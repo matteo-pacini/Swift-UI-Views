@@ -8,7 +8,7 @@ A collection of custom views to reuse in SwiftUI projects
 ### Switch
 
 
- ![switch-gif](gifs/switch.gif)
+ ![switch-gif](switch.gif)
 
 ```
 struct CustomSwitch: View {
