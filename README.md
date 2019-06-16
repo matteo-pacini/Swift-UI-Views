@@ -6,9 +6,9 @@ A collection of custom views to reuse in SwiftUI projects
 
 ## Table of Contents
 
-- [Switch](#switch)
-- [Activity Indicator](#activity-indicator)
-- [Picker](#picker)
+- [Switch (iOS, macOS, watchOS)](#switch) 
+- [Activity Indicator (iOS)](#activity-indicator)
+- [Picker (iOS)](#picker)
 
 ## Views
 
