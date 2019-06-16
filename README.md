@@ -6,13 +6,15 @@ A collection of custom views to reuse in SwiftUI projects
 
 ## Table of Contents
 
-- [Switch (iOS, macOS, watchOS)](#switch) 
-- [Activity Indicator (iOS)](#activity-indicator)
-- [Picker (iOS)](#picker)
+- [Switch](#switch) 
+- [Activity Indicator](#activity-indicator)
+- [Picker](#picker)
 
 ## Views
 
-### Switch (iOS, macOS, watchOS)
+### Switch
+
+Works on: `iOS`, `macOS`, `watchOS`.
 
  ![switch-gif](switch.gif)
 
@@ -43,7 +45,9 @@ struct CustomSwitch: View {
 }
 ```
 
-### Activity Indicator (iOS)
+### Activity Indicator
+
+Works on: `iOS`.
 
 ![indicator-gif](indicator.gif)
 
@@ -66,7 +70,9 @@ struct ActivityIndicator: UIViewRepresentable {
 }
 ```
 
-### Picker (iOS)
+### Picker
+
+Works on: `iOS`.
 
 ![picker-gif](picker.gif)
 
