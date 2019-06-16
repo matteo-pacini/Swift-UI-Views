@@ -12,7 +12,7 @@ A collection of custom views to reuse in SwiftUI projects
 
 ## Views
 
-### Switch
+### Switch (iOS, macOS)
 
  ![switch-gif](switch.gif)
 
