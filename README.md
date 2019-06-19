@@ -9,6 +9,7 @@ A collection of custom views to reuse in SwiftUI projects
 - [Switch](#switch) 
 - [Activity Indicator](#activity-indicator)
 - [Picker](#picker)
+- [Snackbar](#snackbar)
 
 ## Views
 
@@ -180,6 +181,148 @@ struct ContentView: View {
                 Text("Selection: \(String(describing: selection))")
             }
         }
+    }
+
+}
+```
+
+### Snackbar
+
+Works on `iOS`
+
+![snackbar-gif](snackbar.gif)
+![snackbar-dark-gif](snackbar-dark.gif)
+
+```swift
+struct Snackbar: View {
+
+    @Binding var isShowing: Bool
+    private let presenting: AnyView
+    private let text: Text
+    private let actionText: Text?
+    private let action: (() -> Void)?
+
+    private var isBeingDismissedByAction: Bool {
+        actionText != nil && action != nil
+    }
+
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
+
+    init<Presenting>(isShowing: Binding<Bool>,
+         presenting: Presenting,
+         text: Text,
+         actionText: Text? = nil,
+         action: (() -> Void)? = nil) where Presenting: View {
+
+        $isShowing = isShowing
+        self.presenting = AnyView(presenting)
+        self.text = text
+        self.actionText = actionText
+        self.action = action
+
+    }
+
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .center) {
+                self.presenting
+                VStack {
+                    Spacer()
+                    if self.isShowing {
+                        HStack {
+                            self.text
+                                .color(self.colorScheme == .light ? .white : .black)
+                            Spacer()
+                            if (self.actionText != nil && self.action != nil) {
+                                self.actionText!
+                                    .bold()
+                                    .color(self.colorScheme == .light ? .white : .black)
+                                    .tapAction {
+                                        self.action?()
+                                        withAnimation {
+                                            self.isShowing = false
+                                        }
+                                    }
+                            }
+                        }
+                        .padding()
+                        .frame(width: geometry.size.width * 0.9, height: 50)
+                        .shadow(radius: 3)
+                        .background(self.colorScheme == .light ? Color.black : Color.white)
+                        .offset(x: 0, y: -20)
+                        .transition(.asymmetric(insertion: .move(edge: .bottom),                                           removal: .move(edge: .trailing)))
+                        .animation(Animation.spring())
+                        .onAppear {
+                            guard !self.isBeingDismissedByAction else { return }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                withAnimation {
+                                    self.isShowing = false
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+```
+
+**View extension:**
+
+```swift
+extension View {
+
+    func snackBar(isShowing: Binding<Bool>,
+                  text: Text,
+                  actionText: Text? = nil,
+                  action: (() -> Void)? = nil) -> some View {
+
+        Snackbar(isShowing: isShowing,
+                 presenting: self,
+                 text: text,
+                 actionText: actionText,
+                 action: action)
+
+    }
+
+}
+```
+
+**Demo:**
+
+```swift
+struct ContentView : View {
+
+    @State var showSnackBar = false
+    @State var showActionSnackBar = false
+
+    var body: some View {
+        NavigationView {
+            VStack {
+                Button(action: {
+                    withAnimation {
+                        self.showSnackBar.toggle()
+                    }
+                }) {
+                    Text("Simple snackbar")
+                }
+                Button(action: {
+                    withAnimation {
+                        self.showActionSnackBar.toggle()
+                    }
+                }) {
+                    Text("Action snackbar")
+                }
+            }
+        }
+        .snackBar(isShowing: $showSnackBar,
+                  text: Text("Hello Snackbar!"))
+        .snackBar(isShowing: $showActionSnackBar,
+                    text: Text("Hello Snackbar!"),
+                    actionText: Text("YEAH!"),
+                    action: {})
     }
 
 }
