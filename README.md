@@ -10,6 +10,7 @@ A collection of custom views to reuse in SwiftUI projects
 - [Activity Indicator](#activity-indicator)
 - [Picker](#picker)
 - [Snackbar](#snackbar)
+- [Circular Progress](#circular-progress)
 
 ## Views
 
@@ -323,6 +324,73 @@ struct ContentView : View {
                     text: Text("Hello Snackbar!"),
                     actionText: Text("YEAH!"),
                     action: {})
+    }
+
+}
+```
+
+### Circular Progress
+
+Works on `iOS`
+
+![circular-progress-gif](progress.gif)
+
+```swift
+struct CircularProgressView: View {
+
+    @Binding var progress: CGFloat
+
+    private let linearGradient: LinearGradient
+
+    init(progress: Binding<CGFloat>,
+         colors: [Color] = [.purple, .green, .blue, .red]) {
+        _progress = progress
+        linearGradient =  LinearGradient(gradient: Gradient(colors: colors),
+                                        startPoint: .trailing,
+                                        endPoint: .leading)
+    }
+
+    private var displayedProgress: String {
+        let value = Int(roundf(Float(progress) * 100))
+        return "\(value)"
+    }
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .trim(from: 0, to: progress)
+                .stroke(linearGradient, lineWidth: 5)
+                .frame(width:100)
+                .rotationEffect(Angle(degrees:-90))
+            Text(verbatim: displayedProgress)
+                .font(.system(.title, design: .monospaced))
+                .bold()
+        }
+
+    }
+
+}
+```
+
+**Demo**
+
+```swift
+struct ContentView: View {
+
+    @State var progress: CGFloat = 0
+
+    var body: some View {
+        CircularProgressView(progress: $progress)
+        .onAppear {
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
+                withAnimation {
+                    self.progress += 0.01
+                }
+                if (self.progress >= 1) {
+                    self.progress = 0
+                }
+            }
+        }
     }
 
 }
