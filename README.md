@@ -16,7 +16,7 @@ A collection of custom views to reuse in SwiftUI projects
 
 ### Switch
 
-Works on: `iOS`, `macOS`, `watchOS`.
+Works on: `iOS`, `macOS`, `watchOS` and `tvOS` with some modifications.
 
  ![switch-gif](switch.gif)
 
@@ -44,6 +44,20 @@ struct CustomSwitch: View {
         }
     }
 
+}
+```
+
+For `tvOS`, replace `tapAction` with:
+
+```swift
+.focusable(true) { _ in }
+.onMoveCommand { direction in
+    if self.isOn && direction == .left ||
+       !self.isOn && direction == .right {
+           withAnimation {
+               self.isOn.toggle()
+           }
+   }
 }
 ```
 
